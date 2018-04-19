@@ -12,5 +12,6 @@ class NewTopicForm(forms.ModelForm):
     class Meta:
         model = Topic
 
+        # Field subject refers to subject in the Topic model
         # Field message refers to message in the Post we want to save
         fields = ['subject', 'message']
