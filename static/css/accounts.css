@@ -1,0 +1,16 @@
+body {
+  background-image: url(../img/escheresque.png);
+}
+
+.logo {
+  font-family: 'Aldrich', sans-serif;
+}
+
+.logo a {
+  color: rgba(0,0,0,.9);
+}
+
+.logo a:hover,
+.logo a:active {
+  text-decoration: none;
+}
