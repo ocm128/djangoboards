@@ -45,7 +45,7 @@ urlpatterns = [
              template_name='password_reset_confirm.html'),
          name='password_reset_confirm'),
 
-    path('reset/complete',
+    path('reset/complete/',
          auth_views.PasswordResetCompleteView.as_view(
              template_name='password_reset_complete.html'),
          name='password_reset_complete'),
@@ -64,6 +64,9 @@ urlpatterns = [
 
     path('boards/<int:pk>/', views.board_topics, name='board_topics'),
     path('boards/<int:pk>/new/', views.new_topic, name='new_topic'),
+    path('boards/<int:pk>/topics/<int:topic_pk>/',
+         views.topic_posts, name='topic_posts'),
+
     path('admin/', admin.site.urls),
     # path('accounts/', include('django.contrib.auth.urls')),
 ]
