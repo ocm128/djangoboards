@@ -1,5 +1,5 @@
 from django import forms
-from .models import Topic
+from .models import Topic, Post
 
 
 class NewTopicForm(forms.ModelForm):
@@ -15,3 +15,9 @@ class NewTopicForm(forms.ModelForm):
         # Field subject refers to subject in the Topic model
         # Field message refers to message in the Post we want to save
         fields = ['subject', 'message']
+
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['message', ]
