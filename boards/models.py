@@ -23,7 +23,7 @@ class Topic(models.Model):
 
     # auto_now_add=True set the current date and time when a
     # Post object is created.
-    last_update = models.DateTimeField(auto_now_add=True)
+    last_updated = models.DateTimeField(auto_now_add=True)
 
     # The related_name parameter will be used to create a reverse
     # relationship where the Board instances will have access a list
@@ -35,6 +35,7 @@ class Topic(models.Model):
                               on_delete=models.CASCADE)
     starter = models.ForeignKey(User, null=True, related_name='topics',
                                 on_delete=models.SET_NULL)
+    views = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.subject

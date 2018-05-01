@@ -11,21 +11,24 @@ from .models import Board, Topic, Post
 
 
 def home(request):
+    """
+    Home view.
+    """
     boards = Board.objects.all()
-    """
-    boards_name = list()
-
-    for board in boards:
-        boards_name.append(board.name)
-
-    response_html = '<br>'.join(boards_name)
-    """
     return render(request, 'home.html', {'boards': boards})
 
 
 def board_topics(request, pk):
+    """
+    List board topics view.
+
+    pk is used to identify board's id
+    """
     board = get_object_or_404(Board, pk=pk)
-    topics = board.topics.order_by('-last_update').annotate(
+
+    # Get the number of posts (replies) that a given topic has
+    # The replies should not consider the starter topic (-1)
+    topics = board.topics.order_by('-last_updated').annotate(
         replies=Count('posts') - 1)
     return render(request, 'topics.html', {'board': board, 'topics': topics})
 
@@ -58,12 +61,28 @@ def new_topic(request, pk):
 
 
 def topic_posts(request, pk, topic_pk):
+    """
+    List topic posts view.
+
+    pk is used to identify the Board.
+    topic_pk which is used to identify which topic to retrieve
+    from the database.
+    """
     topic = get_object_or_404(Topic, board__pk=pk, pk=topic_pk)
+    topic.views += 1
+    topic.save()
     return render(request, 'topic_posts.html', {'topic': topic})
 
 
 @login_required
 def reply_topic(request, pk, topic_pk):
+    """
+    Reply post view (Vista de mensaje de respuesta)
+
+    pk is used to identify the Board.
+    topic_pk which is used to identify which topic to retrieve
+    from the database.
+    """
     topic = get_object_or_404(Topic, board__pk=pk, pk=topic_pk)
 
     if request.method == 'POST':

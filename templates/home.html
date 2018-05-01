@@ -30,8 +30,8 @@
           <td class="align-middle">
             {% with post=board.get_last_post %}
               <small>
-                {% if post %} <!-- if post = None, it can not get post.topic.pk -->
-                    <a href="{#% url 'topic_posts' board.pk post.topic.pk %}">
+                {% if post %} <!-- if post == None, it can not get post.topic.pk -->
+                    <a href="{% url 'topic_posts' board.pk post.topic.pk %}">
                         By {{ post.created_by.username }} at {{ post.created_at }}
                     </a>
                 {% else %}
