@@ -3,6 +3,9 @@ from django.db.models import Count
 
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views.generic import UpdateView
+
+from django.utils import timezone
 # from django.http import Http404
 # from django.http import HttpResponse
 
@@ -96,3 +99,26 @@ def reply_topic(request, pk, topic_pk):
     else:
         form = PostForm()
     return render(request, 'reply_topic.html', {'topic': topic, 'form': form})
+
+
+class PostUpdateView(UpdateView):
+    model = Post
+    fields = ('message', )
+    template_name = 'edit_post.html'
+
+    # Identify the name of the keyword argument used to retrieve the
+    # Post object. It’s the same as we define in the urls.py.
+    pk_url_kwarg = 'post_pk'
+
+    # If we don’t set the context_object_name attribute, the Post object will
+    # be available in the template as “object.” So, here we are using the
+    # context_object_name to rename it to post instead.
+    # context_object_name = 'post'
+
+    def form_valid(self, form):
+        post = form.save(commit=False)
+        post.updated_by = self.request.user
+        post.updated_at = timezone.now()
+        post.save()
+        return redirect('topic_posts', pk=post.topic.board.pk,
+                        topic_pk=post.topic.pk)

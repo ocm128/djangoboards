@@ -39,7 +39,11 @@
             {{ post.message }}
             {% if post.created_by == user %}
               <div class="mt-3">
-                <a href="#" class="btn btn-primary btn-sm" role="button">Edit</a>
+
+            <!-- If we didn’t set the context_object_name to post in PostUpdateView,
+                    it would be available as: object.topic.board.pk  -->
+                <a href="{% url 'edit_post' post.topic.board.pk post.topic.pk post.pk %}"
+                        class="btn btn-primary btn-sm" role="button">Edit</a>
               </div>
             {% endif %}
           </div>
