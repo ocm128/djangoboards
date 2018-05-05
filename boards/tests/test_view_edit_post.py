@@ -38,6 +38,10 @@ class PostUpdateViewTestCase(TestCase):
 
 
 class LoginRequiredPostUpdateViewTests(PostUpdateViewTestCase):
+    '''
+    Test if only logged in users can edit the posts
+    '''
+
     def test_redirection(self):
         login_url = reverse('login')
         response = self.client.get(self.url)
@@ -47,6 +51,9 @@ class LoginRequiredPostUpdateViewTests(PostUpdateViewTestCase):
 
 class UnauthorizedPostUpdateViewTests(PostUpdateViewTestCase):
     def setUp(self):
+        '''
+        Create a new user different from the one who posted
+        '''
         super().setUp()
         username = 'jane'
         password = '321'

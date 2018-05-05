@@ -21,7 +21,7 @@ from accounts import views as accounts_views
 from boards import views
 
 urlpatterns = [
-    path('', views.home, name='home'),
+    path('', views.BoardListView.as_view(), name='home'),
     path('signup/', accounts_views.signup, name='signup'),
     path('login/', auth_views.LoginView.as_view(template_name='login.html'),
          name='login'),
@@ -62,7 +62,8 @@ urlpatterns = [
              template_name='password_change_done.html'),
          name='password_change_done'),
 
-    path('boards/<int:pk>/', views.board_topics, name='board_topics'),
+    path('boards/<int:pk>/', views.TopicListView.as_view(),
+         name='board_topics'),
     path('boards/<int:pk>/new/', views.new_topic, name='new_topic'),
 
     path('boards/<int:pk>/topics/<int:topic_pk>/',
