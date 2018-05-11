@@ -1,5 +1,6 @@
 
 .directory
+.env
 *.jpg
 #local_settings.py
 
