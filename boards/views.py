@@ -8,6 +8,7 @@ from django.views.generic import ListView, UpdateView
 
 from django.utils.decorators import method_decorator
 from django.utils import timezone
+from django.urls import reverse
 # from django.http import Http404
 # from django.http import HttpResponse
 
@@ -180,6 +181,17 @@ def reply_topic(request, pk, topic_pk):
             post.save()
             topic.last_updated = timezone.now()
             topic.save()
+
+            topic_url = reverse('topic_posts', kwargs={
+                                'pk': pk, 'topic_pk': topic_pk})
+
+            # URL with the last page and adding an anchor to the element
+            # with id equals to the post ID.
+            topic_post_url = '{url}?page={page}#{id}'.format(
+                url=topic_url,
+                id=post.pk,
+                page=topic.get_page_count()
+            )
             return redirect('topic_posts', pk=pk, topic_pk=topic_pk)
     else:
         form = PostForm()

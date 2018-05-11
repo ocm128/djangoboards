@@ -22,6 +22,9 @@ class Board(models.Model):
         return Post.objects.filter(
             topic__board=self).order_by('-created_at').first()
 
+    def get_last_ten_posts(self):
+        return self.posts.order_by('created_at')[:10]
+
 
 class Topic(models.Model):
     subject = models.CharField(max_length=255)
